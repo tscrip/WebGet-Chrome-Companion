@@ -13,11 +13,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     //Getting Settings from LocalStorage
     var ServerURL = localStorage["ServerURL"];
     var APIKey = localStorage["APIKey"];
-    var FileExt = localStorage["FileExt"];
-	  var KeywordsIgn = localStorage["KeywordsIgn"];
     
     //Checking to see if settings have been set
-    if (typeof FileExt === "undefined"||FileExt === ""||typeof ServerURL === "undefined"||ServerURL === ""||typeof APIKey === "undefined"||APIKey === ""){
+    if (typeof ServerURL === "undefined"||ServerURL === ""||typeof APIKey === "undefined"||APIKey === ""){
       alert("Please verify Server, API Key, and File Extentions are set in the Options for this extention.")
     }
     else{
@@ -36,54 +34,6 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     }
   });
 });
-
-function CheckFilename(filename,fileext,keywordsignore){
-  //Converting filename to lower case
-  var LowerFilename = filename.toLowerCase();
-  
-  //Setting variables
-  this.GoodFilename = false;
-  
-  //Building arrays
-	var FileExtArr = fileext.split(",");
-	var KeywordsIgnArr = keywordsignore.split(",");
-	
-	//Looking for extention in filename
-	$.each(FileExtArr, function(index, value){
-	    if (LowerFilename.indexOf(value.toLowerCase()) > -1 ){
-  	    //Approved extention has been found
-  	    self.GoodFilename = true;
-  	    return false;
-  	  }
-	});
-	
-	//Checking result of extention check
-	if (self.GoodFilename === false){
-	  return false;
-	}
-	//Checking to see if ignore keywords are set
-	if (keywordsignore !== ""){
-	  
-	  //Checking filename for ignored keywords
-  	$.each(KeywordsIgnArr, function(index, value){
-    	if (LowerFilename.indexOf(value.toLowerCase()) > -1 ){
-  	    //Invalid Keyword has been found
-  	    self.GoodFilename = false;
-  	    return false;
-    	}
-  	});
-	}
-	
-	//Checking result of keyword check
-	if (this.GoodFilename === false){
-    //Either extention not found or contained invalid keyword
-	  return false;
-	}
-	else{
-	  //Proper extention found or contained no invalid keywords
-	  return true;
-	}
-}
 
 function SendLink(link,server,apikey){
   $.ajax({
